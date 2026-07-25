@@ -5,7 +5,7 @@
 //! rustybox's own dispatch/grep/find code. No BusyBox-derived (GPL) code is
 //! compiled here, so this binary is distributable under MIT.
 //!
-//! Invoke multicall-style: as `cat`, `grep`, ... (argv[0]) via symlinks, or as
+//! Invoke multicall-style: as `cat`, `grep`, ... (`argv[0]`) via symlinks, or as
 //! `rustybox-core <applet> [args...]`.
 
 // Shared MIT source with the full (GPL) crate's modern backends.

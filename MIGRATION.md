@@ -57,12 +57,9 @@ is nearly free.
 
 - **Phase 0 — router + feature scaffold.** Add the `fn(&[OsString]) -> i32`
   adapter seam and per-applet `*-modern` features. No behavior change yet.
-- **Phase 1 — coreutils family (uutils).** Highest leverage: ~40 applets behind
-  one mature dependency. Wire `uu_*::uumain`, diff behavior against BusyBox in
-  the test suite, flip features as each passes.
-- **Phase 2 — specialty engines.** grep (grep-* libs), find (`ignore`/`walkdir`),
-  dump family (`hexyl`), archives (`tar`/`flate2`/…). Each is its own PR + parity
-  tests.
+- **Phase 1 — coreutils family (uutils).** Highest leverage: 85+ applets (including `tty` ✅, `hostid` ✅, `cat`, `ls`, `cp`, `mv`, `rm`, `mkdir`, `rmdir`, `ln`, `pwd`, `touch`, `head`, `tail`, `wc`, `sort`, `uniq`, `cut`, `tr`, `chmod`, `chown`, `df`, `du`, `env`, `date`, `basename`, `dirname`, `readlink`, `stat`, `seq`, `sleep`, `id`, `whoami`, `yes`, `tac`, `nl`, `tee`, `mktemp`, `realpath`, `nproc`, `printf`, `link`, `unlink`, `logname`, `factor`, `timeout`, `nohup`, `shuf`, `nice`, `dd`, `truncate`, `fold`, `expand`, `unexpand`, `comm`, `split`, `cksum`, `paste`, `uname`, `sum`, `base64`) behind uutils dependencies.
+- **Phase 2 — specialty engines.** grep (grep-* libs), find (`walkdir`/`globset` ✅), dump family (`hexyl`), archives (`tar`/`flate2`/…).
+  - `find` ✅ — `modern/find.rs`, feature `modern-find`. Full memory-safe reimplementation of tree traversal using `walkdir` and `globset`. Supports starting paths, `-name`, `-iname`, `-path`, `-ipath`, `-wholename`, `-type`, `-empty`, `-maxdepth`, `-mindepth`, `-mtime`, `-mmin`, `-newer`, `-size`, `-inum`, `-links`, `-perm`, `-executable`, `-user`, `-group`, `-prune`, `-print`, `-print0`, `-delete`, `-exec ... ;`, `-exec ... +`, and `-quit`.
   - `md5sum`/`sha1sum`/`sha256sum`/`sha512sum`/`sha3sum` ✅ — `modern/hashsum.rs`,
     feature `modern-hashsum`. Legacy transpiled `coreutils/md5_sha1_sum.rs` retired in Phase 4.
     Used RustCrypto's `md-5`/`sha1`/`sha2`/`sha3` crates directly — audited, far more
