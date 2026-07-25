@@ -2,25 +2,11 @@ use libc;
 use libc::printf;
 use libc::puts;
 use libc::setutxent;
-extern "C" {
-
-  fn getutxent() -> *mut utmpx;
-  fn utmpxname(__file: *const libc::c_char) -> libc::c_int;
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct __exit_status {
-  pub e_termination: libc::c_short,
-  pub e_exit: libc::c_short,
-}
 use libc::utmpx;
 
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct C2RustUnnamed {
-  pub tv_sec: i32,
-  pub tv_usec: i32,
+extern "C" {
+  fn getutxent() -> *mut utmpx;
+  fn utmpxname(__file: *const libc::c_char) -> libc::c_int;
 }
 
 /*
@@ -75,7 +61,7 @@ pub unsafe fn runlevel_main(
     if (*ut).ut_type as libc::c_int == 1i32 {
       prev = ((*ut).ut_pid / 256i32) as libc::c_char;
       if prev as libc::c_int == 0 {
-        prev = 'N' as i32 as libc::c_char
+        prev = 'N' as i32 as libc::c_char;
       }
       printf(
         b"%c %c\n\x00" as *const u8 as *const libc::c_char,

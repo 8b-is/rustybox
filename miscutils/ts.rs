@@ -7,7 +7,7 @@ extern "C" {
   static mut optind: libc::c_int;
   static mut stdin: *mut FILE;
 
-  fn gettimeofday(__tv: *mut timeval, __tz: __timezone_ptr_t) -> libc::c_int;
+  fn gettimeofday(__tv: *mut timeval, __tz: *mut libc::c_void) -> libc::c_int;
   fn strftime(
     __s: *mut libc::c_char,
     __maxsize: size_t,
@@ -25,13 +25,6 @@ use libc::time_t;
 use libc::timeval;
 use libc::FILE;
 
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct timezone {
-  pub tz_minuteswest: libc::c_int,
-  pub tz_dsttime: libc::c_int,
-}
-pub type __timezone_ptr_t = *mut timezone;
 use libc::tm;
 pub type C2RustUnnamed = libc::c_uint;
 pub const COMMON_BUFSIZE: C2RustUnnamed = 1024;
@@ -89,7 +82,7 @@ pub unsafe fn ts_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char) 
     *frac.offset(0) = *frac.offset(1);
     *frac.offset(1) = '\u{0}' as i32 as libc::c_char
   }
-  gettimeofday(&mut base, 0 as *mut timezone);
+  gettimeofday(&mut base, std::ptr::null_mut());
   loop {
     line = crate::libbb::get_line_from_file::xmalloc_fgets(stdin);
     if line.is_null() {
@@ -112,7 +105,7 @@ pub unsafe fn ts_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char) 
       tm_gmtoff: 0,
       tm_zone: 0 as *const libc::c_char,
     };
-    gettimeofday(&mut ts, 0 as *mut timezone);
+    gettimeofday(&mut ts, std::ptr::null_mut());
     if opt != 0 {
       /* -i and/or -s */
       let mut ts1: timeval = timeval {
