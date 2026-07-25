@@ -131,15 +131,7 @@ pub unsafe fn nandwrite_main(
   let mut blockstart: libc::c_uint = 0;
   let mut limit: libc::c_uint = 0;
   let mut end_addr: libc::c_uint = !0i32 as libc::c_uint;
-  let mut meminfo: mtd_info_user = mtd_info_user {
-    type_0: 0,
-    flags: 0,
-    size: 0,
-    erasesize: 0,
-    writesize: 0,
-    oobsize: 0,
-    padding: 0,
-  };
+  let mut meminfo: mtd_info_user = std::mem::zeroed();
   let mut oob: mtd_oob_buf = std::mem::zeroed();
   let mut filebuf: *mut libc::c_uchar = std::ptr::null_mut();
   let mut opt_s: *const libc::c_char = b"0\x00" as *const u8 as *const libc::c_char;
