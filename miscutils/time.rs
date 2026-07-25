@@ -1,5 +1,4 @@
 use crate::libbb::ptr_to_globals::bb_errno;
-use crate::librb::__syscall_slong_t;
 use crate::librb::signal::__sighandler_t;
 
 use libc;
@@ -7,8 +6,9 @@ use libc::getenv;
 use libc::pid_t;
 use libc::printf;
 use libc::timeval;
-extern "C" {
+use libc::rusage;
 
+extern "C" {
   fn vfork() -> libc::c_int;
   static mut optind: libc::c_int;
   fn getpagesize() -> libc::c_int;
@@ -16,126 +16,6 @@ extern "C" {
 
   fn strcspn(_: *const libc::c_char, _: *const libc::c_char) -> libc::c_ulong;
   fn wait3(__stat_loc: *mut libc::c_int, __options: libc::c_int, __usage: *mut rusage) -> pid_t;
-
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct rusage {
-  pub ru_utime: timeval,
-  pub ru_stime: timeval,
-  pub c2rust_unnamed: C2RustUnnamed_12,
-  pub c2rust_unnamed_0: C2RustUnnamed_11,
-  pub c2rust_unnamed_1: C2RustUnnamed_10,
-  pub c2rust_unnamed_2: C2RustUnnamed_9,
-  pub c2rust_unnamed_3: C2RustUnnamed_8,
-  pub c2rust_unnamed_4: C2RustUnnamed_7,
-  pub c2rust_unnamed_5: C2RustUnnamed_6,
-  pub c2rust_unnamed_6: C2RustUnnamed_5,
-  pub c2rust_unnamed_7: C2RustUnnamed_4,
-  pub c2rust_unnamed_8: C2RustUnnamed_3,
-  pub c2rust_unnamed_9: C2RustUnnamed_2,
-  pub c2rust_unnamed_10: C2RustUnnamed_1,
-  pub c2rust_unnamed_11: C2RustUnnamed_0,
-  pub c2rust_unnamed_12: C2RustUnnamed,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed {
-  pub ru_nivcsw: libc::c_long,
-  pub __ru_nivcsw_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_0 {
-  pub ru_nvcsw: libc::c_long,
-  pub __ru_nvcsw_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_1 {
-  pub ru_nsignals: libc::c_long,
-  pub __ru_nsignals_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_2 {
-  pub ru_msgrcv: libc::c_long,
-  pub __ru_msgrcv_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_3 {
-  pub ru_msgsnd: libc::c_long,
-  pub __ru_msgsnd_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_4 {
-  pub ru_oublock: libc::c_long,
-  pub __ru_oublock_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_5 {
-  pub ru_inblock: libc::c_long,
-  pub __ru_inblock_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_6 {
-  pub ru_nswap: libc::c_long,
-  pub __ru_nswap_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_7 {
-  pub ru_majflt: libc::c_long,
-  pub __ru_majflt_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_8 {
-  pub ru_minflt: libc::c_long,
-  pub __ru_minflt_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_9 {
-  pub ru_isrss: libc::c_long,
-  pub __ru_isrss_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_10 {
-  pub ru_idrss: libc::c_long,
-  pub __ru_idrss_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_11 {
-  pub ru_ixrss: libc::c_long,
-  pub __ru_ixrss_word: __syscall_slong_t,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub union C2RustUnnamed_12 {
-  pub ru_maxrss: libc::c_long,
-  pub __ru_maxrss_word: __syscall_slong_t,
 }
 
 #[repr(C)]
@@ -145,12 +25,14 @@ pub struct resource_t {
   pub ru: rusage,
   pub elapsed_ms: libc::c_uint,
 }
+
 pub const OPT_a: C2RustUnnamed_13 = 4;
 pub const OPT_o: C2RustUnnamed_13 = 8;
 pub const OPT_p: C2RustUnnamed_13 = 2;
 pub const OPT_v: C2RustUnnamed_13 = 1;
 pub type C2RustUnnamed_13 = libc::c_uint;
 pub const OPT_f: C2RustUnnamed_13 = 16;
+
 /* msec = milliseconds = 1/1,000 (1*10e-3) second.
 usec = microseconds = 1/1,000,000 (1*10e-6) second.  */
 static mut default_format: [libc::c_char; 23] = [
@@ -182,7 +64,7 @@ static mut long_format: [libc::c_char; 715] = [
   100, 101, 110, 116, 32, 115, 101, 116, 32, 115, 105, 122, 101, 32, 40, 107, 98, 121, 116, 101,
   115, 41, 58, 32, 37, 77, 10, 9, 65, 118, 101, 114, 97, 103, 101, 32, 114, 101, 115, 105, 100,
   101, 110, 116, 32, 115, 101, 116, 32, 115, 105, 122, 101, 32, 40, 107, 98, 121, 116, 101, 115,
-  41, 58, 32, 37, 116, 10, 9, 77, 97, 106, 111, 114, 32, 40, 114, 101, 113, 117, 105, 114, 105,
+  41, 58, 32, 37, 116, 10, 9, 77, 97, 106, 111, 114, 32, 40, 114, 101, 111, 117, 105, 114, 105,
   110, 103, 32, 73, 47, 79, 41, 32, 112, 97, 103, 101, 32, 102, 97, 117, 108, 116, 115, 58, 32, 37,
   70, 10, 9, 77, 105, 110, 111, 114, 32, 40, 114, 101, 99, 108, 97, 105, 109, 105, 110, 103, 32,
   97, 32, 102, 114, 97, 109, 101, 41, 32, 112, 97, 103, 101, 32, 102, 97, 117, 108, 116, 115, 58,
@@ -195,19 +77,14 @@ static mut long_format: [libc::c_char; 715] = [
   32, 37, 79, 10, 9, 83, 111, 99, 107, 101, 116, 32, 109, 101, 115, 115, 97, 103, 101, 115, 32,
   115, 101, 110, 116, 58, 32, 37, 115, 10, 9, 83, 111, 99, 107, 101, 116, 32, 109, 101, 115, 115,
   97, 103, 101, 115, 32, 114, 101, 99, 101, 105, 118, 101, 100, 58, 32, 37, 114, 10, 9, 83, 105,
-  103, 110, 97, 108, 115, 32, 100, 101, 108, 105, 118, 101, 114, 101, 100, 58, 32, 37, 107, 10, 9,
+  117, 110, 97, 108, 115, 32, 100, 101, 108, 105, 118, 101, 114, 101, 100, 58, 32, 37, 107, 10, 9,
   80, 97, 103, 101, 32, 115, 105, 122, 101, 32, 40, 98, 121, 116, 101, 115, 41, 58, 32, 37, 90, 10,
   9, 69, 120, 105, 116, 32, 115, 116, 97, 116, 117, 115, 58, 32, 37, 120, 0,
 ];
-/* Wait for and fill in data on child process PID.
-Return 0 on error, 1 if ok.  */
-/* pid_t is short on BSDI, so don't try to promote it.  */
+
 unsafe extern "C" fn resuse_end(mut pid: pid_t, mut resp: *mut resource_t) {
   let mut caught: pid_t = 0;
-  loop
-  /* Ignore signals, but don't ignore the children.  When wait3
-   * returns the child process, set the time the command finished. */
-  {
+  loop {
     caught = wait3(&mut (*resp).waitstatus, 0, &mut (*resp).ru);
     if !(caught != pid) {
       break;
@@ -222,6 +99,7 @@ unsafe extern "C" fn resuse_end(mut pid: pid_t, mut resp: *mut resource_t) {
   (*resp).elapsed_ms = crate::libbb::time::monotonic_ms()
     .wrapping_sub((*resp).elapsed_ms as libc::c_ulonglong) as libc::c_uint;
 }
+
 unsafe extern "C" fn printargv(mut argv: *const *mut libc::c_char) {
   let mut fmt: *const libc::c_char = (b" %s\x00" as *const u8 as *const libc::c_char).offset(1);
   loop {
@@ -233,40 +111,26 @@ unsafe extern "C" fn printargv(mut argv: *const *mut libc::c_char) {
     }
   }
 }
-/* Return the number of kilobytes corresponding to a number of pages PAGES.
-(Actually, we use it to convert pages*ticks into kilobytes*ticks.)
 
-Try to do arithmetic so that the risk of overflow errors is minimized.
-This is funky since the pagesize could be less than 1K.
-Note: Some machines express getrusage statistics in terms of K,
-others in terms of pages.  */
 unsafe extern "C" fn ptok(pagesize: libc::c_uint, pages: libc::c_ulong) -> libc::c_ulong {
   let mut tmp: libc::c_ulong = 0;
-  /* Conversion.  */
   if pages > (9223372036854775807i64 / pagesize as libc::c_long) as libc::c_ulong {
-    /* Could overflow.  */
     tmp = pages.wrapping_div(1024i32 as libc::c_ulong);
-    return tmp.wrapping_mul(pagesize as libc::c_ulong); /* Smaller first, */
-    /* then larger.  */
+    return tmp.wrapping_mul(pagesize as libc::c_ulong);
   }
-  /* Could underflow.  */
-  tmp = pages.wrapping_mul(pagesize as libc::c_ulong); /* Larger first, */
+  tmp = pages.wrapping_mul(pagesize as libc::c_ulong);
   return tmp.wrapping_div(1024i32 as libc::c_ulong);
-  /* then smaller.  */
 }
+
 unsafe extern "C" fn summarize(
   mut fmt: *const libc::c_char,
   mut command: *mut *mut libc::c_char,
   mut resp: *mut resource_t,
 ) {
-  let mut vv_ms: libc::c_uint = 0; /* Elapsed virtual (CPU) milliseconds */
-  let mut cpu_ticks: libc::c_uint = 0; /* Same, in "CPU ticks" */
+  let mut vv_ms: libc::c_uint = 0;
+  let mut cpu_ticks: libc::c_uint = 0;
   let mut pagesize: libc::c_uint = getpagesize() as libc::c_uint;
-  /* Impossible: we do not use WUNTRACED flag in wait()...
-  if (WIFSTOPPED(resp->waitstatus))
-    printf("Command stopped by signal %u\n",
-        WSTOPSIG(resp->waitstatus));
-  else */
+
   if (((*resp).waitstatus & 0x7fi32) + 1i32) as libc::c_schar as libc::c_int >> 1i32 > 0 {
     printf(
       b"Command terminated by signal %u\n\x00" as *const u8 as *const libc::c_char,
@@ -281,13 +145,11 @@ unsafe extern "C" fn summarize(
   vv_ms = (((*resp).ru.ru_utime.tv_sec + (*resp).ru.ru_stime.tv_sec) * 1000i32 as libc::c_long
     + ((*resp).ru.ru_utime.tv_usec + (*resp).ru.ru_stime.tv_usec) / 1000i32 as libc::c_long)
     as libc::c_uint;
-  /* 1000 is exactly divisible by TICKS_PER_SEC (typical) */
-  cpu_ticks = vv_ms.wrapping_div((1000i32 / 100i32) as libc::c_uint); /* we divide by it, must be nonzero */
+  cpu_ticks = vv_ms.wrapping_div((1000i32 / 100i32) as libc::c_uint);
   if cpu_ticks == 0 {
     cpu_ticks = 1i32 as libc::c_uint
   }
   while *fmt != 0 {
-    /* Handle leading literal part */
     let mut n: libc::c_int =
       strcspn(fmt, b"%\\\x00" as *const u8 as *const libc::c_char) as libc::c_int;
     if n != 0 {
@@ -299,30 +161,20 @@ unsafe extern "C" fn summarize(
           fmt = fmt.offset(1);
           match *fmt as libc::c_int {
             67 => {
-              /* The command that got timed.  */
               printargv(command);
             }
             68 => {
-              /* Average unshared data size.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_1.ru_idrss as libc::c_ulong,
-                )
-                .wrapping_add(ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_2.ru_isrss as libc::c_ulong,
-                ))
-                .wrapping_div(cpu_ticks as libc::c_ulong),
+                ptok(pagesize, (*resp).ru.ru_idrss as libc::c_ulong)
+                  .wrapping_add(ptok(pagesize, (*resp).ru.ru_isrss as libc::c_ulong))
+                  .wrapping_div(cpu_ticks as libc::c_ulong),
               );
             }
             69 => {
-              /* Elapsed real (wall clock) time.  */
               let mut seconds: libc::c_uint =
                 (*resp).elapsed_ms.wrapping_div(1000i32 as libc::c_uint);
               if seconds >= 3600i32 as libc::c_uint {
-                /* One hour -> h:m:s.  */
                 printf(
                   b"%uh %um %02us\x00" as *const u8 as *const libc::c_char,
                   seconds.wrapping_div(3600i32 as libc::c_uint),
@@ -344,58 +196,39 @@ unsafe extern "C" fn summarize(
               }
             }
             70 => {
-              /* Major page faults.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_4.ru_majflt,
+                (*resp).ru.ru_majflt,
               );
             }
             73 => {
-              /* Inputs.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_6.ru_inblock,
+                (*resp).ru.ru_inblock,
               );
             }
             75 => {
-              /* Average mem usage == data+stack+text.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_1.ru_idrss as libc::c_ulong,
-                )
-                .wrapping_add(ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_2.ru_isrss as libc::c_ulong,
-                ))
-                .wrapping_add(ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_0.ru_ixrss as libc::c_ulong,
-                ))
-                .wrapping_div(cpu_ticks as libc::c_ulong),
+                ptok(pagesize, (*resp).ru.ru_idrss as libc::c_ulong)
+                  .wrapping_add(ptok(pagesize, (*resp).ru.ru_isrss as libc::c_ulong))
+                  .wrapping_add(ptok(pagesize, (*resp).ru.ru_ixrss as libc::c_ulong))
+                  .wrapping_div(cpu_ticks as libc::c_ulong),
               );
             }
             77 => {
-              /* Maximum resident set size.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed.ru_maxrss as libc::c_ulong,
-                ),
+                ptok(pagesize, (*resp).ru.ru_maxrss as libc::c_ulong),
               );
             }
             79 => {
-              /* Outputs.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_7.ru_oublock,
+                (*resp).ru.ru_oublock,
               );
             }
             80 => {
-              /* Percent of CPU this job got.  */
-              /* % cpu is (total cpu time)/(elapsed time).  */
               if (*resp).elapsed_ms > 0 as libc::c_uint {
                 printf(
                   b"%u%%\x00" as *const u8 as *const libc::c_char,
@@ -408,14 +241,12 @@ unsafe extern "C" fn summarize(
               }
             }
             82 => {
-              /* Minor page faults (reclaims).  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_3.ru_minflt,
+                (*resp).ru.ru_minflt,
               );
             }
             83 => {
-              /* System time.  */
               printf(
                 b"%u.%02u\x00" as *const u8 as *const libc::c_char,
                 (*resp).ru.ru_stime.tv_sec as libc::c_uint,
@@ -423,9 +254,7 @@ unsafe extern "C" fn summarize(
               );
             }
             84 => {
-              /* System time.  */
               if (*resp).ru.ru_stime.tv_sec >= 3600i32 as libc::c_long {
-                /* One hour -> h:m:s.  */
                 printf(
                   b"%uh %um %02us\x00" as *const u8 as *const libc::c_char,
                   ((*resp).ru.ru_stime.tv_sec / 3600i32 as libc::c_long) as libc::c_uint,
@@ -443,7 +272,6 @@ unsafe extern "C" fn summarize(
               }
             }
             85 => {
-              /* User time.  */
               printf(
                 b"%u.%02u\x00" as *const u8 as *const libc::c_char,
                 (*resp).ru.ru_utime.tv_sec as libc::c_uint,
@@ -451,9 +279,7 @@ unsafe extern "C" fn summarize(
               );
             }
             117 => {
-              /* User time.  */
               if (*resp).ru.ru_utime.tv_sec >= 3600i32 as libc::c_long {
-                /* One hour -> h:m:s.  */
                 printf(
                   b"%uh %um %02us\x00" as *const u8 as *const libc::c_char,
                   ((*resp).ru.ru_utime.tv_sec / 3600i32 as libc::c_long) as libc::c_uint,
@@ -471,36 +297,28 @@ unsafe extern "C" fn summarize(
               }
             }
             87 => {
-              /* Times swapped out.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_5.ru_nswap,
+                (*resp).ru.ru_nswap,
               );
             }
             88 => {
-              /* Average shared text size.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_0.ru_ixrss as libc::c_ulong,
-                )
-                .wrapping_div(cpu_ticks as libc::c_ulong),
+                ptok(pagesize, (*resp).ru.ru_ixrss as libc::c_ulong)
+                  .wrapping_div(cpu_ticks as libc::c_ulong),
               );
             }
             90 => {
-              /* Page size.  */
               printf(b"%u\x00" as *const u8 as *const libc::c_char, pagesize);
             }
             99 => {
-              /* Involuntary context switches.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_12.ru_nivcsw,
+                (*resp).ru.ru_nivcsw,
               );
             }
             101 => {
-              /* Elapsed real time in seconds.  */
               printf(
                 b"%u.%02u\x00" as *const u8 as *const libc::c_char,
                 (*resp).elapsed_ms.wrapping_div(1000i32 as libc::c_uint),
@@ -511,57 +329,44 @@ unsafe extern "C" fn summarize(
               );
             }
             107 => {
-              /* Signals delivered.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_10.ru_nsignals,
+                (*resp).ru.ru_nsignals,
               );
             }
             112 => {
-              /* Average stack segment.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_2.ru_isrss as libc::c_ulong,
-                )
-                .wrapping_div(cpu_ticks as libc::c_ulong),
+                ptok(pagesize, (*resp).ru.ru_isrss as libc::c_ulong)
+                  .wrapping_div(cpu_ticks as libc::c_ulong),
               );
             }
             114 => {
-              /* Incoming socket messages received.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_9.ru_msgrcv,
+                (*resp).ru.ru_msgrcv,
               );
             }
             115 => {
-              /* Outgoing socket messages sent.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_8.ru_msgsnd,
+                (*resp).ru.ru_msgsnd,
               );
             }
             116 => {
-              /* Average resident set size.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                ptok(
-                  pagesize,
-                  (*resp).ru.c2rust_unnamed_1.ru_idrss as libc::c_ulong,
-                )
-                .wrapping_div(cpu_ticks as libc::c_ulong),
+                ptok(pagesize, (*resp).ru.ru_idrss as libc::c_ulong)
+                  .wrapping_div(cpu_ticks as libc::c_ulong),
               );
             }
             119 => {
-              /* Voluntary context switches.  */
               printf(
                 b"%lu\x00" as *const u8 as *const libc::c_char,
-                (*resp).ru.c2rust_unnamed_11.ru_nvcsw,
+                (*resp).ru.ru_nvcsw,
               );
             }
             120 => {
-              /* Exit status.  */
               printf(
                 b"%u\x00" as *const u8 as *const libc::c_char,
                 ((*resp).waitstatus & 0xff00i32) >> 8i32,
@@ -575,11 +380,9 @@ unsafe extern "C" fn summarize(
       fmt = fmt.offset(1)
     }
   }
-  /* ret: */
   crate::libbb::xfuncs_printf::bb_putchar('\n' as i32);
 }
-/* Run command CMD and return statistics on it.
-Put the statistics in *RESP.  */
+
 unsafe extern "C" fn run_command(mut cmd: *const *mut libc::c_char, mut resp: *mut resource_t) {
   let mut pid: pid_t = 0;
   let mut interrupt_signal: Option<unsafe extern "C" fn(_: libc::c_int) -> ()> = None;
@@ -595,11 +398,8 @@ unsafe extern "C" fn run_command(mut cmd: *const *mut libc::c_char, mut resp: *m
     bb__xvfork_pid
   };
   if pid == 0 {
-    /* Child */
     crate::libbb::executable::BB_EXECVP_or_die(cmd as *mut *mut libc::c_char);
   }
-  /* Have signals kill the child but not self (if possible).  */
-  //TODO: just block all sigs? and re-enable them in the very end in main?
   interrupt_signal = signal(
     2i32,
     ::std::mem::transmute::<libc::intptr_t, __sighandler_t>(1i32 as libc::intptr_t),
@@ -609,40 +409,12 @@ unsafe extern "C" fn run_command(mut cmd: *const *mut libc::c_char, mut resp: *m
     ::std::mem::transmute::<libc::intptr_t, __sighandler_t>(1i32 as libc::intptr_t),
   );
   resuse_end(pid, resp);
-  /* Re-enable signals.  */
   signal(2i32, interrupt_signal);
   signal(3i32, quit_signal);
 }
+
 pub unsafe fn time_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> libc::c_int {
-  let mut res: resource_t = resource_t {
-    waitstatus: 0,
-    ru: rusage {
-      ru_utime: timeval {
-        tv_sec: 0,
-        tv_usec: 0,
-      },
-      ru_stime: timeval {
-        tv_sec: 0,
-        tv_usec: 0,
-      },
-      c2rust_unnamed: C2RustUnnamed_12 { ru_maxrss: 0 },
-      c2rust_unnamed_0: C2RustUnnamed_11 { ru_ixrss: 0 },
-      c2rust_unnamed_1: C2RustUnnamed_10 { ru_idrss: 0 },
-      c2rust_unnamed_2: C2RustUnnamed_9 { ru_isrss: 0 },
-      c2rust_unnamed_3: C2RustUnnamed_8 { ru_minflt: 0 },
-      c2rust_unnamed_4: C2RustUnnamed_7 { ru_majflt: 0 },
-      c2rust_unnamed_5: C2RustUnnamed_6 { ru_nswap: 0 },
-      c2rust_unnamed_6: C2RustUnnamed_5 { ru_inblock: 0 },
-      c2rust_unnamed_7: C2RustUnnamed_4 { ru_oublock: 0 },
-      c2rust_unnamed_8: C2RustUnnamed_3 { ru_msgsnd: 0 },
-      c2rust_unnamed_9: C2RustUnnamed_2 { ru_msgrcv: 0 },
-      c2rust_unnamed_10: C2RustUnnamed_1 { ru_nsignals: 0 },
-      c2rust_unnamed_11: C2RustUnnamed_0 { ru_nvcsw: 0 },
-      c2rust_unnamed_12: C2RustUnnamed { ru_nivcsw: 0 },
-    },
-    elapsed_ms: 0,
-  };
-  /* $TIME has lowest prio (-v,-p,-f FMT overrride it) */
+  let mut res: resource_t = std::mem::zeroed();
   let ref mut fresh0 = getenv(b"TIME\x00" as *const u8 as *const libc::c_char);
   let mut output_format: *const libc::c_char = if !(*fresh0).is_null() {
     *fresh0
@@ -653,7 +425,6 @@ pub unsafe fn time_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char
   let mut output_fd: libc::c_int = 0;
   let mut opt: libc::c_int = 0;
   let mut ex: libc::c_int = 0;
-  /* "+": stop on first non-option */
   opt = crate::libbb::getopt32::getopt32(
     argv,
     b"^+vpao:f:\x00-1\x00" as *const u8 as *const libc::c_char,
@@ -682,14 +453,9 @@ pub unsafe fn time_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char
     }
   }
   run_command(argv, &mut res);
-  /* Cheat. printf's are shorter :) */
   crate::libbb::xfuncs_printf::xdup2(output_fd, 1i32);
   summarize(output_format, argv, &mut res);
   ex = (res.waitstatus & 0xff00i32) >> 8i32;
-  /* Impossible: we do not use WUNTRACED flag in wait()...
-  if (WIFSTOPPED(res.waitstatus))
-    ex = WSTOPSIG(res.waitstatus);
-  */
   if ((res.waitstatus & 0x7fi32) + 1i32) as libc::c_schar as libc::c_int >> 1i32 > 0 {
     ex = res.waitstatus & 0x7fi32
   }
