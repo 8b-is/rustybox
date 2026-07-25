@@ -1,56 +1,10 @@
-use c2rust_bitfields;
-use c2rust_bitfields::BitfieldStruct;
-
 use crate::compat::memset;
 use crate::compat::strlen;
 use libc;
 use libc::printf;
-extern "C" {
 
-  fn adjtimex(__ntx: *mut timex) -> libc::c_int;
-}
-
-use crate::librb::__syscall_slong_t;
 use crate::librb::size_t;
 use libc::timeval;
-
-#[repr(C)]
-#[derive(Copy, Clone, BitfieldStruct)]
-pub struct timex {
-  pub modes: libc::c_uint,
-  pub offset: __syscall_slong_t,
-  pub freq: __syscall_slong_t,
-  pub maxerror: __syscall_slong_t,
-  pub esterror: __syscall_slong_t,
-  pub status: libc::c_int,
-  pub constant: __syscall_slong_t,
-  pub precision: __syscall_slong_t,
-  pub tolerance: __syscall_slong_t,
-  pub time: timeval,
-  pub tick: __syscall_slong_t,
-  pub ppsfreq: __syscall_slong_t,
-  pub jitter: __syscall_slong_t,
-  pub shift: libc::c_int,
-  pub stabil: __syscall_slong_t,
-  pub jitcnt: __syscall_slong_t,
-  pub calcnt: __syscall_slong_t,
-  pub errcnt: __syscall_slong_t,
-  pub stbcnt: __syscall_slong_t,
-  pub tai: libc::c_int,
-  #[bitfield(name = "c2rust_unnamed", ty = "libc::c_int", bits = "0..=31")]
-  #[bitfield(name = "c2rust_unnamed_0", ty = "libc::c_int", bits = "32..=63")]
-  #[bitfield(name = "c2rust_unnamed_1", ty = "libc::c_int", bits = "64..=95")]
-  #[bitfield(name = "c2rust_unnamed_2", ty = "libc::c_int", bits = "96..=127")]
-  #[bitfield(name = "c2rust_unnamed_3", ty = "libc::c_int", bits = "128..=159")]
-  #[bitfield(name = "c2rust_unnamed_4", ty = "libc::c_int", bits = "160..=191")]
-  #[bitfield(name = "c2rust_unnamed_5", ty = "libc::c_int", bits = "192..=223")]
-  #[bitfield(name = "c2rust_unnamed_6", ty = "libc::c_int", bits = "224..=255")]
-  #[bitfield(name = "c2rust_unnamed_7", ty = "libc::c_int", bits = "256..=287")]
-  #[bitfield(name = "c2rust_unnamed_8", ty = "libc::c_int", bits = "288..=319")]
-  #[bitfield(name = "c2rust_unnamed_9", ty = "libc::c_int", bits = "320..=351")]
-  pub c2rust_unnamed_c2rust_unnamed_0_c2rust_unnamed_1_c2rust_unnamed_2_c2rust_unnamed_3_c2rust_unnamed_4_c2rust_unnamed_5_c2rust_unnamed_6_c2rust_unnamed_7_c2rust_unnamed_8_c2rust_unnamed_9:
-    [u8; 44],
-}
 pub const OPT_quiet: C2RustUnnamed = 1;
 pub type C2RustUnnamed = libc::c_uint;
 #[inline(always)]
@@ -128,36 +82,9 @@ pub unsafe fn adjtimex_main(
   let mut opt_f: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
   let mut opt_p: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
   let mut opt_t: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
-  let mut txc: timex =
-        timex{modes: 0,
-              offset: 0,
-              freq: 0,
-              maxerror: 0,
-              esterror: 0,
-              status: 0,
-              constant: 0,
-              precision: 0,
-              tolerance: 0,
-              time: timeval{tv_sec: 0, tv_usec: 0,},
-              tick: 0,
-              ppsfreq: 0,
-              jitter: 0,
-              shift: 0,
-              stabil: 0,
-              jitcnt: 0,
-              calcnt: 0,
-              errcnt: 0,
-              stbcnt: 0,
-              tai: 0,
-              c2rust_unnamed_c2rust_unnamed_0_c2rust_unnamed_1_c2rust_unnamed_2_c2rust_unnamed_3_c2rust_unnamed_4_c2rust_unnamed_5_c2rust_unnamed_6_c2rust_unnamed_7_c2rust_unnamed_8_c2rust_unnamed_9:
-                  [0; 44],};
+  let mut txc: libc::timex = unsafe { std::mem::zeroed() };
   let mut ret: libc::c_int = 0;
   let mut descript: *const libc::c_char = std::ptr::null();
-  memset(
-    &mut txc as *mut timex as *mut libc::c_void,
-    0,
-    ::std::mem::size_of::<timex>() as libc::c_ulong,
-  );
   opt = crate::libbb::getopt32::getopt32(
     argv,
     b"^qo:f:p:t:\x00=0\x00" as *const u8 as *const libc::c_char,
@@ -191,7 +118,7 @@ pub unsafe fn adjtimex_main(
    * just some printf. No opens, no allocs.
    * If you need to make it more complex, feel free to downgrade to NOEXEC
    */
-  ret = adjtimex(&mut txc);
+  ret = libc::adjtimex(&mut txc);
   if ret < 0 {
     crate::libbb::perror_nomsg_and_die::bb_perror_nomsg_and_die();
   }
