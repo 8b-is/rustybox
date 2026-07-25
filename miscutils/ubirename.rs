@@ -40,12 +40,12 @@ use crate::librb::size_t;
 pub struct ubi_rnvol_req {
   pub count: i32,
   pub padding1: [i8; 12],
-  pub ents: [C2RustUnnamed; 32],
+  pub ents: [ubi_rnvol_entry; 32],
 }
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct C2RustUnnamed {
+pub struct ubi_rnvol_entry {
   pub vol_id: i32,
   pub name_len: i16,
   pub padding2: [i8; 2],
@@ -73,8 +73,8 @@ pub unsafe fn ubirename_main(
   argc -= 1;
   (*rnvol).count = argc;
   if argc as libc::c_uint
-    > (::std::mem::size_of::<[C2RustUnnamed; 32]>() as libc::c_ulong)
-      .wrapping_div(::std::mem::size_of::<C2RustUnnamed>() as libc::c_ulong) as libc::c_uint
+    > (::std::mem::size_of::<[ubi_rnvol_entry; 32]>() as libc::c_ulong)
+      .wrapping_div(::std::mem::size_of::<ubi_rnvol_entry>() as libc::c_ulong) as libc::c_uint
   {
     crate::libbb::verror_msg::bb_simple_error_msg_and_die(
       b"too many renames requested\x00" as *const u8 as *const libc::c_char,
