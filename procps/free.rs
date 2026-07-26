@@ -10,8 +10,6 @@ extern "C" {
     __n: libc::c_int,
     __stream: *mut FILE,
   ) -> *mut libc::c_char;
-
-  fn sysinfo(__info: *mut sysinfo) -> libc::c_int;
 }
 
 #[repr(C)]
@@ -22,29 +20,6 @@ pub struct globals {
   pub cached_kb: libc::c_ulong,
   pub available_kb: libc::c_ulong,
   pub reclaimable_kb: libc::c_ulong,
-}
-pub type __u16 = libc::c_ushort;
-pub type u32 = libc::c_uint;
-pub type __kernel_long_t = libc::c_long;
-pub type __kernel_ulong_t = libc::c_ulong;
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct sysinfo {
-  pub uptime: __kernel_long_t,
-  pub loads: [__kernel_ulong_t; 3],
-  pub totalram: __kernel_ulong_t,
-  pub freeram: __kernel_ulong_t,
-  pub sharedram: __kernel_ulong_t,
-  pub bufferram: __kernel_ulong_t,
-  pub totalswap: __kernel_ulong_t,
-  pub freeswap: __kernel_ulong_t,
-  pub procs: __u16,
-  pub pad: __u16,
-  pub totalhigh: __kernel_ulong_t,
-  pub freehigh: __kernel_ulong_t,
-  pub mem_unit: u32,
-  pub _f: [libc::c_char; 0],
 }
 /* Because of NOFORK, "globals" are not in global data */
 unsafe fn scale(mut g: *mut globals, mut d: libc::c_ulong) -> libc::c_ulonglong {
@@ -117,22 +92,7 @@ pub unsafe fn free_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char
     available_kb: 0,
     reclaimable_kb: 0,
   };
-  let mut info: sysinfo = sysinfo {
-    uptime: 0,
-    loads: [0; 3],
-    totalram: 0,
-    freeram: 0,
-    sharedram: 0,
-    bufferram: 0,
-    totalswap: 0,
-    freeswap: 0,
-    procs: 0,
-    pad: 0,
-    totalhigh: 0,
-    freehigh: 0,
-    mem_unit: 0,
-    _f: [0; 0],
-  };
+  let mut info: libc::sysinfo = std::mem::zeroed();
   let mut cached: libc::c_ulonglong = 0;
   let mut cached_plus_free: libc::c_ulonglong = 0;
   let mut available: libc::c_ulonglong = 0;
@@ -164,7 +124,7 @@ pub unsafe fn free_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_char
     b"buff/cache\x00" as *const u8 as *const libc::c_char,
     b"available\x00" as *const u8 as *const libc::c_char,
   );
-  sysinfo(&mut info);
+  libc::sysinfo(&mut info);
   /* Kernels prior to 2.4.x will return info.mem_unit==0, so cope... */
   G.mem_unit = if info.mem_unit != 0 {
     info.mem_unit
