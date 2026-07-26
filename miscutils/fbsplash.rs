@@ -35,16 +35,16 @@ extern "C" {
   static mut bb_common_bufsiz1: [libc::c_char; 0];
 }
 
-pub type C2RustUnnamed = libc::c_uint;
-pub const PARSE_NORMAL: C2RustUnnamed = 4653056;
-pub const PARSE_WS_COMMENTS: C2RustUnnamed = 16777216;
-pub const PARSE_ALT_COMMENTS: C2RustUnnamed = 8388608;
-pub const PARSE_EOL_COMMENTS: C2RustUnnamed = 4194304;
-pub const PARSE_KEEP_COPY: C2RustUnnamed = 2097152;
-pub const PARSE_MIN_DIE: C2RustUnnamed = 1048576;
-pub const PARSE_GREEDY: C2RustUnnamed = 262144;
-pub const PARSE_TRIM: C2RustUnnamed = 131072;
-pub const PARSE_COLLAPSE: C2RustUnnamed = 65536;
+pub type FbSplashParseFlags = libc::c_uint;
+pub const PARSE_NORMAL: FbSplashParseFlags = 4653056;
+pub const PARSE_WS_COMMENTS: FbSplashParseFlags = 16777216;
+pub const PARSE_ALT_COMMENTS: FbSplashParseFlags = 8388608;
+pub const PARSE_EOL_COMMENTS: FbSplashParseFlags = 4194304;
+pub const PARSE_KEEP_COPY: FbSplashParseFlags = 2097152;
+pub const PARSE_MIN_DIE: FbSplashParseFlags = 1048576;
+pub const PARSE_GREEDY: FbSplashParseFlags = 262144;
+pub const PARSE_TRIM: FbSplashParseFlags = 131072;
+pub const PARSE_COLLAPSE: FbSplashParseFlags = 65536;
 
 #[repr(C)]
 #[derive(Copy, Clone)]

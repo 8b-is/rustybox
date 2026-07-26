@@ -57,21 +57,21 @@ pub const PARSE_NORMAL: C2RustUnnamed = 4653056;
 // delim[0] and delim[1] are two different allowed comment chars
 // (so far, delim[0] will only work as comment char for full-line comment)
 // (IOW: it works as if PARSE_EOL_COMMENTS is not set. sysctl applet is okay with this)
-pub const PARSE_WS_COMMENTS: C2RustUnnamed = 16777216;
+pub const PARSE_WS_COMMENTS: ManParseFlags = 16777216;
 // comments are recognized even if they aren't the first char
-pub const PARSE_ALT_COMMENTS: C2RustUnnamed = 8388608;
-pub const PARSE_EOL_COMMENTS: C2RustUnnamed = 4194304;
+pub const PARSE_ALT_COMMENTS: ManParseFlags = 8388608;
+pub const PARSE_EOL_COMMENTS: ManParseFlags = 4194304;
 // die if < min tokens found
 // keep a copy of current line
-pub const PARSE_KEEP_COPY: C2RustUnnamed = 2097152;
+pub const PARSE_KEEP_COPY: ManParseFlags = 2097152;
 // last token takes entire remainder of the line
-pub const PARSE_MIN_DIE: C2RustUnnamed = 1048576;
+pub const PARSE_MIN_DIE: ManParseFlags = 1048576;
 // trim leading and trailing delimiters
 // TODO: COLLAPSE and TRIM seem to always go in pair
-pub const PARSE_GREEDY: C2RustUnnamed = 262144;
+pub const PARSE_GREEDY: ManParseFlags = 262144;
 // treat consecutive delimiters as one
-pub const PARSE_TRIM: C2RustUnnamed = 131072;
-pub const PARSE_COLLAPSE: C2RustUnnamed = 65536;
+pub const PARSE_TRIM: ManParseFlags = 131072;
+pub const PARSE_COLLAPSE: ManParseFlags = 65536;
 
 //extern const int const_int_1;
 /* This struct is deliberately not defined. */
@@ -85,9 +85,9 @@ pub struct globals {
   pub nroff: *const libc::c_char,
   pub pager: *const libc::c_char,
 }
-pub type C2RustUnnamed_0 = libc::c_uint;
-pub const OPT_w: C2RustUnnamed_0 = 2;
-pub const OPT_a: C2RustUnnamed_0 = 1;
+pub type ManOptFlags = libc::c_uint;
+pub const OPT_w: ManOptFlags = 2;
+pub const OPT_a: ManOptFlags = 1;
 unsafe extern "C" fn run_pipe(
   mut man_filename: *mut libc::c_char,
   mut man: libc::c_int,
