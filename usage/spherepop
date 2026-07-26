@@ -1,0 +1,14 @@
+[FILE]
+
+Replay a deterministic, append-only event log and print the resulting
+kernel state. Reads from FILE, or stdin if no FILE given.
+
+Event format (one per line):
+  POP <id>
+  MERGE <a> <b>
+  LINK <a> <b> <type>
+  UNLINK <a> <b> <type>
+  COLLAPSE <id...> -> <representative>
+  SETMETA <id> <key> <value>
+
+Lines starting with # and blank lines are ignored.

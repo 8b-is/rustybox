@@ -3095,6 +3095,14 @@ lazy_static! {
       install_loc: InstallLoc::DIR_USR_BIN,
       usage: std::include_str!("../usage/wall"),
     });
+    #[cfg(feature = "spherepop")]
+    appy_mcappface.push(applet {
+      name: "spherepop",
+      main: "spherepop",
+      entrypoint: Entrypoint::SafeStyle(crate::modern::spherepop::run_and_exit),
+      install_loc: InstallLoc::DIR_USR_BIN,
+      usage: std::include_str!("../usage/spherepop"),
+    });
     #[cfg(feature = "watch")]
     appy_mcappface.push(applet {
       name: "watch",
