@@ -2495,6 +2495,14 @@ lazy_static! {
       install_loc: InstallLoc::DIR_USR_BIN,
       usage: std::include_str!("../usage/ssl_client"),
     });
+    #[cfg(feature = "st")]
+    appy_mcappface.push(applet {
+      name: "st",
+      main: "st",
+      entrypoint: Entrypoint::SafeStyle(crate::modern::st::run_and_exit),
+      install_loc: InstallLoc::DIR_USR_BIN,
+      usage: std::include_str!("../usage/st"),
+    });
     #[cfg(feature = "start-stop-daemon")]
     appy_mcappface.push(applet {
       name: "start-stop-daemon",
@@ -2782,6 +2790,14 @@ lazy_static! {
       entrypoint: Entrypoint::CStyle(crate::networking::traceroute::traceroute6_main),
       install_loc: InstallLoc::DIR_USR_BIN,
       usage: std::include_str!("../usage/traceroute6"),
+    });
+    #[cfg(feature = "tree")]
+    appy_mcappface.push(applet {
+      name: "tree",
+      main: "tree",
+      entrypoint: Entrypoint::SafeStyle(crate::modern::st::run_and_exit),
+      install_loc: InstallLoc::DIR_USR_BIN,
+      usage: std::include_str!("../usage/tree"),
     });
     #[cfg(feature = "true")]
     appy_mcappface.push(applet {
@@ -3102,22 +3118,6 @@ lazy_static! {
       entrypoint: Entrypoint::SafeStyle(crate::modern::spherepop::run_and_exit),
       install_loc: InstallLoc::DIR_USR_BIN,
       usage: std::include_str!("../usage/spherepop"),
-    });
-    #[cfg(feature = "st")]
-    appy_mcappface.push(applet {
-      name: "st",
-      main: "st",
-      entrypoint: Entrypoint::SafeStyle(crate::modern::st::run_and_exit),
-      install_loc: InstallLoc::DIR_USR_BIN,
-      usage: std::include_str!("../usage/st"),
-    });
-    #[cfg(feature = "tree")]
-    appy_mcappface.push(applet {
-      name: "tree",
-      main: "tree",
-      entrypoint: Entrypoint::SafeStyle(crate::modern::st::run_and_exit),
-      install_loc: InstallLoc::DIR_USR_BIN,
-      usage: std::include_str!("../usage/tree"),
     });
     #[cfg(feature = "watch")]
     appy_mcappface.push(applet {
