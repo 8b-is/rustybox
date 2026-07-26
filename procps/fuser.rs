@@ -67,25 +67,25 @@ pub struct inode_list {
   pub inode: ino_t,
   pub dev: libc::dev_t,
 }
-pub type C2RustUnnamed = libc::c_uint;
-pub const OPT_IP4: C2RustUnnamed = 16;
-pub const OPT_IP6: C2RustUnnamed = 8;
-pub const OPT_SILENT: C2RustUnnamed = 4;
-pub const OPT_KILL: C2RustUnnamed = 2;
-pub const OPT_MOUNT: C2RustUnnamed = 1;
-pub type C2RustUnnamed_0 = libc::c_uint;
-pub const PROC_SUBDIR_LINKS: C2RustUnnamed_0 = 3;
-pub const PROC_DIR_LINKS: C2RustUnnamed_0 = 2;
-pub const PROC_DIR: C2RustUnnamed_0 = 1;
-pub const PROC_NET: C2RustUnnamed_0 = 0;
-pub const MAPS: C2RustUnnamed_1 = 6;
-pub const MMAP_DIR_LINKS: C2RustUnnamed_1 = 5;
-pub const LIB_DIR_LINKS: C2RustUnnamed_1 = 4;
-pub const FD_DIR_LINKS: C2RustUnnamed_1 = 3;
-pub const ROOT_LINK: C2RustUnnamed_1 = 2;
-pub const EXE_LINK: C2RustUnnamed_1 = 1;
-pub const CWD_LINK: C2RustUnnamed_1 = 0;
-pub type C2RustUnnamed_1 = libc::c_uint;
+pub type FuserOptFlags = libc::c_uint;
+pub const OPT_IP4: FuserOptFlags = 16;
+pub const OPT_IP6: FuserOptFlags = 8;
+pub const OPT_SILENT: FuserOptFlags = 4;
+pub const OPT_KILL: FuserOptFlags = 2;
+pub const OPT_MOUNT: FuserOptFlags = 1;
+pub type FuserProcDir = libc::c_uint;
+pub const PROC_SUBDIR_LINKS: FuserProcDir = 3;
+pub const PROC_DIR_LINKS: FuserProcDir = 2;
+pub const PROC_DIR: FuserProcDir = 1;
+pub const PROC_NET: FuserProcDir = 0;
+pub type FuserProcLinkType = libc::c_uint;
+pub const MAPS: FuserProcLinkType = 6;
+pub const MMAP_DIR_LINKS: FuserProcLinkType = 5;
+pub const LIB_DIR_LINKS: FuserProcLinkType = 4;
+pub const FD_DIR_LINKS: FuserProcLinkType = 3;
+pub const ROOT_LINK: FuserProcLinkType = 2;
+pub const EXE_LINK: FuserProcLinkType = 1;
+pub const CWD_LINK: FuserProcLinkType = 0;
 unsafe fn add_inode(mut st: *const stat) {
   let mut curr: *mut *mut inode_list =
     &mut (*(bb_common_bufsiz1.as_mut_ptr() as *mut globals)).inode_list_head;
