@@ -2479,6 +2479,14 @@ lazy_static! {
       install_loc: InstallLoc::DIR_USR_BIN,
       usage: std::include_str!("../usage/sort"),
     });
+    #[cfg(feature = "spherepop")]
+    appy_mcappface.push(applet {
+      name: "spherepop",
+      main: "spherepop",
+      entrypoint: Entrypoint::SafeStyle(crate::modern::spherepop::run_and_exit),
+      install_loc: InstallLoc::DIR_USR_BIN,
+      usage: std::include_str!("../usage/spherepop"),
+    });
     #[cfg(feature = "split")]
     appy_mcappface.push(applet {
       name: "split",
@@ -3110,14 +3118,6 @@ lazy_static! {
       entrypoint: Entrypoint::CStyle(crate::util_linux::wall::wall_main),
       install_loc: InstallLoc::DIR_USR_BIN,
       usage: std::include_str!("../usage/wall"),
-    });
-    #[cfg(feature = "spherepop")]
-    appy_mcappface.push(applet {
-      name: "spherepop",
-      main: "spherepop",
-      entrypoint: Entrypoint::SafeStyle(crate::modern::spherepop::run_and_exit),
-      install_loc: InstallLoc::DIR_USR_BIN,
-      usage: std::include_str!("../usage/spherepop"),
     });
     #[cfg(feature = "watch")]
     appy_mcappface.push(applet {
