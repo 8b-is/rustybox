@@ -2,7 +2,7 @@
 
 > A free-range, non-GMO fork of BusyBox written entirely in Rust. One
 > fully-static binary, dual-arch (x86_64 + aarch64), memory-safe applets on
-> uutils/ripgrep/walkdir/RustCrypto/tar/flate2/xz2, and official embedded userland for Entheai (entropy-om/entheai).
+> uutils/ripgrep/walkdir/RustCrypto/tar/flate2/xz2, the official userland for vakedkernel 🜂 and Entheai (entropy-om/entheai).
 > Dual editions: GPL-2.0 (rustybox full) & 100% MIT (rustybox-core).
 
 ## What it is

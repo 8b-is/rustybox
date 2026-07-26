@@ -210,6 +210,7 @@ fn print_version() {
   println!("args:     {}", env!("RB_BUILD_ARGS"));
   println!("repo:     https://github.com/8b-is/rustybox");
   println!("site:     https://rustybox.io");
+  println!("userland: vakedkernel 🜂 + entheai sandboxes");
   println!("backends: uutils + ripgrep libs · memory-safe, permissive-licensed");
 }
 

@@ -23,9 +23,9 @@ pub type __s8 = libc::c_schar;
 pub type __s16 = libc::c_short;
 pub type __s32 = libc::c_int;
 pub type __s64 = libc::c_longlong;
-pub type C2RustUnnamed = libc::c_uint;
-pub const UBI_STATIC_VOLUME: C2RustUnnamed = 4;
-pub const UBI_DYNAMIC_VOLUME: C2RustUnnamed = 3;
+pub type UbiVolumeType = libc::c_uint;
+pub const UBI_STATIC_VOLUME: UbiVolumeType = 4;
+pub const UBI_DYNAMIC_VOLUME: UbiVolumeType = 3;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -59,7 +59,7 @@ pub struct ubi_rsvol_req {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub union C2RustUnnamed_0 {
+pub union ubi_req_union {
   pub attach_req: ubi_attach_req,
   pub mkvol_req: ubi_mkvol_req,
   pub rsvol_req: ubi_rsvol_req,
@@ -143,7 +143,7 @@ pub unsafe fn ubi_tools_main(
   let mut size_bytes_str: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
   let mut alignment: libc::c_int = 1i32;
   let mut type_0: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
-  let mut req_structs: C2RustUnnamed_0 = C2RustUnnamed_0 {
+  let mut req_structs: ubi_req_union = ubi_req_union {
     attach_req: ubi_attach_req {
       ubi_num: 0,
       mtd_num: 0,
@@ -158,9 +158,9 @@ pub unsafe fn ubi_tools_main(
     b"/sys/class/ubi/ubi\x00" as *const u8 as *const libc::c_char,
   );
   memset(
-    &mut req_structs as *mut C2RustUnnamed_0 as *mut libc::c_void,
+    &mut req_structs as *mut ubi_req_union as *mut libc::c_void,
     0,
-    ::std::mem::size_of::<C2RustUnnamed_0>() as libc::c_ulong,
+    ::std::mem::size_of::<ubi_req_union>() as libc::c_ulong,
   );
   if 1i32 != 0
     && (0i32 + 1i32 + 1i32 + 1i32 + 1i32 + 1i32 + 1i32 == 1i32

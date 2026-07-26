@@ -3,12 +3,13 @@
 [![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/8b-is)
 [![License](https://img.shields.io/badge/license-GPL--2.0%20%2F%20MIT%20core-blue)](LICENSE)
 [![Static](https://img.shields.io/badge/build-static%20musl%20·%20x86__64%20%2B%20aarch64-2ee6a6)](#static-dual-architecture-binaries)
+[![vakedkernel Userland](https://img.shields.io/badge/Userland-vakedkernel%20%F0%9F%9C%82-ff4500)](https://github.com/8b-is/rustybox)
 [![Entheai Userland](https://img.shields.io/badge/Userland-Entheai%20Sandbox-000000?logo=github&logoColor=white)](https://github.com/entropy-om/entheai)
 [![site](https://img.shields.io/badge/site-rustybox.io-6cf)](https://rustybox.io)
 
 > **Built in the open — [♥ sponsor the resurrection](https://github.com/sponsors/8b-is).**
 
-RustyBox is a free-range, non-GMO fork of [BusyBox](https://busybox.net/) written entirely in [Rust](https://www.rust-lang.org/). It serves as the official embedded Linux userland for [Entheai](https://github.com/entropy-om/entheai) — the hybrid agentic coding harness. It includes all your favorite commands like `ls`, `mount`, `grep`, `find`, and `top`, but without a single line of C code. Like BusyBox, it covers the basic utilities you need to stand up a small Linux userland or agent sandbox, and fits into a single, fully-static ~4MB binary (UPX compressed).
+RustyBox is a free-range, non-GMO fork of [BusyBox](https://busybox.net/) written entirely in [Rust](https://www.rust-lang.org/). It serves as the official userland for **vakedkernel 🜂** and embedded Linux sandbox for [Entheai](https://github.com/entropy-om/entheai). It includes all your favorite commands like `ls`, `mount`, `grep`, `find`, and `top`, but without a single line of C code. Like BusyBox, it covers the basic utilities you need to stand up a small Linux userland or agent sandbox, and fits into a single, fully-static ~4MB binary (UPX compressed).
 
 ## Status
 
