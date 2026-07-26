@@ -52,8 +52,8 @@ extern "C" {
 
 pub type nfds_t = libc::c_ulong;
 
-pub type C2RustUnnamed = libc::c_uint;
-pub const BB_FATAL_SIGS: C2RustUnnamed = 117503054;
+pub type ConspyFatalSigs = libc::c_uint;
+pub const BB_FATAL_SIGS: ConspyFatalSigs = 117503054;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -89,25 +89,25 @@ pub struct screen_info {
   pub cursor_x: libc::c_uchar,
   pub cursor_y: libc::c_uchar,
 }
-pub type C2RustUnnamed_0 = libc::c_uint;
-pub const COMMON_BUFSIZE: C2RustUnnamed_0 = 1024;
-pub type C2RustUnnamed_1 = libc::c_uint;
+pub type ConspyBufSize = libc::c_uint;
+pub const COMMON_BUFSIZE: ConspyBufSize = 1024;
+pub type ConspyFlags = libc::c_uint;
 // framebuffer
 // follow cursor
-pub const FLAG_F: C2RustUnnamed_1 = 7;
+pub const FLAG_F: ConspyFlags = 7;
 // dump screen
-pub const FLAG_f: C2RustUnnamed_1 = 6;
+pub const FLAG_f: ConspyFlags = 6;
 // no colors
-pub const FLAG_d: C2RustUnnamed_1 = 5;
+pub const FLAG_d: ConspyFlags = 5;
 // session
-pub const FLAG_n: C2RustUnnamed_1 = 4;
+pub const FLAG_n: ConspyFlags = 4;
 // never exit
-pub const FLAG_s: C2RustUnnamed_1 = 3;
+pub const FLAG_s: ConspyFlags = 3;
 // create device if need
-pub const FLAG_Q: C2RustUnnamed_1 = 2;
+pub const FLAG_Q: ConspyFlags = 2;
 // view only
-pub const FLAG_c: C2RustUnnamed_1 = 1;
-pub const FLAG_v: C2RustUnnamed_1 = 0;
+pub const FLAG_c: ConspyFlags = 1;
+pub const FLAG_v: ConspyFlags = 0;
 #[inline(always)]
 unsafe fn not_const_pp(mut p: *const libc::c_void) -> *mut libc::c_void {
   return p as *mut libc::c_void;
