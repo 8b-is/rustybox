@@ -21,13 +21,13 @@
 
 ```
 # Grab rustybox-core (MIT edition) or rustybox (Full GPL edition)
-curl -LO https://github.com/peterlodri-sec/rustybox/releases/latest/download/rustybox-core-x86_64-unknown-linux-musl
+curl -LO https://github.com/8b-is/rustybox/releases/latest/download/rustybox-core-x86_64-unknown-linux-musl
 chmod +x rustybox-core-* && ./rustybox-core-* --version
 ```
 
 ## Links
 
-- [Source](https://github.com/peterlodri-sec/rustybox)
-- [Releases](https://github.com/peterlodri-sec/rustybox/releases)
+- [Source](https://github.com/8b-is/rustybox)
+- [Releases](https://github.com/8b-is/rustybox/releases)
 - [Story: resurrecting rustybox](https://pocoo.vaked.dev/posts/2026-07-20-resurrecting-rustybox.html)
-- [Sponsor](https://github.com/sponsors/peterlodri-sec)
+- [Sponsor](https://github.com/sponsors/8b-is)

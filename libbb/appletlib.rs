@@ -119,7 +119,7 @@ unsafe fn rustybox_main(argv: &[&str]) -> i32 {
       println!("built:    {}", env!("RB_BUILD_DATE"));
       println!("target:   {}", env!("RB_TARGET"));
       println!("args:     {}", env!("RB_BUILD_ARGS"));
-      println!("repo:     https://github.com/peterlodri-sec/rustybox");
+      println!("repo:     https://github.com/8b-is/rustybox");
       println!("site:     https://rustybox.io");
       return 0;
     }

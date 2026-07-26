@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://rustybox.io/">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#0b0f0d">
-<meta name="author" content="peterlodri-sec">
+<meta name="author" content="8b-is">
 <meta name="keywords" content="busybox, rust, static binary, musl, coreutils, uutils, ripgrep, container, agentic, cli">
 
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -31,7 +31,7 @@
 <meta name="twitter:description" content="One fully-static binary. Dual-arch musl. Memory-safe applets on uutils + ripgrep. Resurrected from a six-year-dead c2rust transpile.">
 <meta name="twitter:image" content="https://rustybox.io/og-image.png">
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"rustybox","description":"A free-range, non-GMO fork of BusyBox written entirely in Rust. One fully-static binary, dual-arch (x86_64 + aarch64), memory-safe applets, and timeout built in for agentic harnesses.","programmingLanguage":"Rust","codeRepository":"https://github.com/peterlodri-sec/rustybox","license":"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html","url":"https://rustybox.io/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"rustybox","description":"A free-range, non-GMO fork of BusyBox written entirely in Rust. One fully-static binary, dual-arch (x86_64 + aarch64), memory-safe applets, and timeout built in for agentic harnesses.","programmingLanguage":"Rust","codeRepository":"https://github.com/8b-is/rustybox","license":"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html","url":"https://rustybox.io/"}</script>
 <style>
   :root{
     --bg:#0b0f0d; --panel:#111613; --ink:#e8f0ea; --muted:#8ba193;
@@ -105,7 +105,7 @@
   <span class="logo">rusty<b>box</b></span>
   <a href="#why">why</a><a href="#compare">compare</a><a href="#tools">tools</a><a href="#install">install</a><a href="/docs/">docs</a><a href="#sponsor">sponsor</a>
   <span class="sp"></span>
-  <a class="btn" href="https://github.com/peterlodri-sec/rustybox">GitHub ↗</a>
+  <a class="btn" href="https://github.com/8b-is/rustybox">GitHub ↗</a>
 </div></header>
 
 <main class="wrap">
@@ -115,7 +115,7 @@
     <p class="lede">A free-range, non-GMO fork of BusyBox — the whole toolbox in one fully-static binary, now memory-safe and built for the agentic era.</p>
     <div class="cta">
       <a class="btn primary" href="#install">Get it</a>
-      <a class="btn" href="https://github.com/peterlodri-sec/rustybox">Source</a>
+      <a class="btn" href="https://github.com/8b-is/rustybox">Source</a>
       <a class="btn spon" href="#sponsor">♥ Sponsor</a    <div class="term">
       <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
       <pre><span class="c"># 100% parity across modern applets &amp; dual-edition licensing</span>
@@ -262,7 +262,7 @@ rustybox-core-x86_64-unknown-linux-musl: ELF, statically linked, <span class="g"
     <div class="term">
       <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i></div>
       <pre><span class="c"># grab the MIT edition (rustybox-core) or full GPL edition from Releases</span>
-curl -LO https://github.com/peterlodri-sec/rustybox/releases/latest/download/rustybox-core-x86_64-unknown-linux-musl
+curl -LO https://github.com/8b-is/rustybox/releases/latest/download/rustybox-core-x86_64-unknown-linux-musl
 chmod +x rustybox-core-* &amp;&amp; ./rustybox-core-* --version
 
 <span class="c"># or build rustybox-core (MIT edition) directly from source</span>
@@ -280,14 +280,14 @@ cargo build --release -p rustybox-core</pre>
         <div class="tier hot"><span class="ti">🚀</span><b>Sponsor</b><em>$50<small>/mo</small></em><p>Above + your logo right here on rustybox.io.</p></div>
         <div class="tier"><span class="ti">🛰️</span><b>Patron</b><em>$250<small>/mo</small></em><p>Above + logo up top + a say in which applets go memory-safe next.</p></div>
       </div>
-      <a class="btn primary" href="https://github.com/sponsors/peterlodri-sec">♥ Sponsor on GitHub</a>
+      <a class="btn primary" href="https://github.com/sponsors/8b-is">♥ Sponsor on GitHub</a>
       <p style="font-size:.82rem;margin:.9em auto 0">One-time contributions welcome too · every sponsor credited (opt-out anytime)</p>
     </div>
   </section>
 </main>
 
 <footer><div class="wrap">
-  <div>rustybox — <a href="https://github.com/peterlodri-sec/rustybox">github.com/peterlodri-sec/rustybox</a> · <a href="/docs/">documentation</a></div>
+  <div>rustybox — <a href="https://github.com/8b-is/rustybox">github.com/8b-is/rustybox</a> · <a href="/docs/">documentation</a></div>
   <!-- LICENSE: dual edition architecture -->
   <div class="lic" style="margin-top:6px">Editions: <b>rustybox</b> (GPL-2.0-only, BusyBox lineage) · <b>rustybox-core</b> (MIT, 100% permissive memory-safe stack)</div>
 </div></footer>

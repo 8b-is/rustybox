@@ -3,14 +3,14 @@
 rustybox is built in the open and funded by its sponsors. Thank you. ♥
 
 Sponsorship goes through one shared [GitHub Sponsors
-listing](https://github.com/sponsors/peterlodri-sec) that also funds my other
+listing](https://github.com/sponsors/8b-is) that also funds my other
 open-source work (crabcc, Vaked, …) — the tiers below are that listing's real
 tiers, credited here automatically by
 [`.github/workflows/sponsors.yml`](.github/workflows/sponsors.yml) whenever
 someone sponsors, changes tier, or cancels. Reply to the GitHub Sponsors
 welcome message with a different display name, or to opt out of being listed.
 
-[**→ Become a sponsor**](https://github.com/sponsors/peterlodri-sec)
+[**→ Become a sponsor**](https://github.com/sponsors/8b-is)
 
 ## 🤝 Partners — $2,500/mo
 
