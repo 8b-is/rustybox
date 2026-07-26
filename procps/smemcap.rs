@@ -69,31 +69,9 @@ unsafe extern "C" fn writeheader(
   mut sb: *mut stat,
   mut type_0: libc::c_int,
 ) {
-  let mut header: tar_header_t = tar_header_t {
-    name: [0; 100],
-    mode: [0; 8],
-    uid: [0; 8],
-    gid: [0; 8],
-    size: [0; 12],
-    mtime: [0; 12],
-    chksum: [0; 8],
-    typeflag: 0,
-    linkname: [0; 100],
-    magic: [0; 8],
-    uname: [0; 32],
-    gname: [0; 32],
-    devmajor: [0; 8],
-    devminor: [0; 8],
-    prefix: [0; 155],
-    padding: [0; 12],
-  };
+  let mut header: tar_header_t = std::mem::zeroed();
   let mut i: libc::c_int = 0;
   let mut sum: libc::c_int = 0;
-  memset(
-    &mut header as *mut tar_header_t as *mut libc::c_void,
-    0,
-    512i32 as libc::c_ulong,
-  );
   strcpy(header.name.as_mut_ptr(), path);
   sprintf(
     header.mode.as_mut_ptr(),

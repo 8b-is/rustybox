@@ -27,29 +27,29 @@ extern "C" {
 
 }
 
-pub type C2RustUnnamed = libc::c_uint;
-pub const PSSCAN_TASKS: C2RustUnnamed = 4194304;
-pub const PSSCAN_RUIDGID: C2RustUnnamed = 2097152;
-pub const PSSCAN_NICE: C2RustUnnamed = 1048576;
-pub const PSSCAN_CPU: C2RustUnnamed = 524288;
-pub const PSSCAN_START_TIME: C2RustUnnamed = 262144;
-pub const PSSCAN_CONTEXT: C2RustUnnamed = 0;
-pub const PSSCAN_ARGVN: C2RustUnnamed = 65536;
-pub const PSSCAN_SMAPS: C2RustUnnamed = 32768;
-pub const PSSCAN_TTY: C2RustUnnamed = 16384;
-pub const PSSCAN_UTIME: C2RustUnnamed = 8192;
-pub const PSSCAN_STIME: C2RustUnnamed = 4096;
-pub const PSSCAN_RSS: C2RustUnnamed = 2048;
-pub const PSSCAN_VSZ: C2RustUnnamed = 1024;
-pub const PSSCAN_STATE: C2RustUnnamed = 512;
-pub const PSSCAN_EXE: C2RustUnnamed = 256;
-pub const PSSCAN_ARGV0: C2RustUnnamed = 128;
-pub const PSSCAN_COMM: C2RustUnnamed = 32;
-pub const PSSCAN_UIDGID: C2RustUnnamed = 16;
-pub const PSSCAN_SID: C2RustUnnamed = 8;
-pub const PSSCAN_PGID: C2RustUnnamed = 4;
-pub const PSSCAN_PPID: C2RustUnnamed = 2;
-pub const PSSCAN_PID: C2RustUnnamed = 1;
+pub type PgrepPsScanFlags = libc::c_uint;
+pub const PSSCAN_TASKS: PgrepPsScanFlags = 4194304;
+pub const PSSCAN_RUIDGID: PgrepPsScanFlags = 2097152;
+pub const PSSCAN_NICE: PgrepPsScanFlags = 1048576;
+pub const PSSCAN_CPU: PgrepPsScanFlags = 524288;
+pub const PSSCAN_START_TIME: PgrepPsScanFlags = 262144;
+pub const PSSCAN_CONTEXT: PgrepPsScanFlags = 0;
+pub const PSSCAN_ARGVN: PgrepPsScanFlags = 65536;
+pub const PSSCAN_SMAPS: PgrepPsScanFlags = 32768;
+pub const PSSCAN_TTY: PgrepPsScanFlags = 16384;
+pub const PSSCAN_UTIME: PgrepPsScanFlags = 8192;
+pub const PSSCAN_STIME: PgrepPsScanFlags = 4096;
+pub const PSSCAN_RSS: PgrepPsScanFlags = 2048;
+pub const PSSCAN_VSZ: PgrepPsScanFlags = 1024;
+pub const PSSCAN_STATE: PgrepPsScanFlags = 512;
+pub const PSSCAN_EXE: PgrepPsScanFlags = 256;
+pub const PSSCAN_ARGV0: PgrepPsScanFlags = 128;
+pub const PSSCAN_COMM: PgrepPsScanFlags = 32;
+pub const PSSCAN_UIDGID: PgrepPsScanFlags = 16;
+pub const PSSCAN_SID: PgrepPsScanFlags = 8;
+pub const PSSCAN_PGID: PgrepPsScanFlags = 4;
+pub const PSSCAN_PPID: PgrepPsScanFlags = 2;
+pub const PSSCAN_PID: PgrepPsScanFlags = 1;
 
 pub type regex_t = re_pattern_buffer;
 pub type regoff_t = libc::c_int;
@@ -115,22 +115,22 @@ pub struct regmatch_t {
 //usage:     "\n	-s	Match session ID (0 for current)"
 //usage:     "\n	-P	Match parent process ID"
 /* Idea taken from kill.c */
-pub type C2RustUnnamed_0 = libc::c_uint;
-pub const OPTBIT_P: C2RustUnnamed_0 = 8;
-pub const OPTBIT_S: C2RustUnnamed_0 = 7;
-pub const OPTBIT_N: C2RustUnnamed_0 = 6;
-pub const OPTBIT_O: C2RustUnnamed_0 = 5;
-pub const OPTBIT_X: C2RustUnnamed_0 = 4;
-pub const OPTBIT_F: C2RustUnnamed_0 = 3;
-pub const OPTBIT_A: C2RustUnnamed_0 = 2;
+pub type PgrepOptBit = libc::c_uint;
+pub const OPTBIT_P: PgrepOptBit = 8;
+pub const OPTBIT_S: PgrepOptBit = 7;
+pub const OPTBIT_N: PgrepOptBit = 6;
+pub const OPTBIT_O: PgrepOptBit = 5;
+pub const OPTBIT_X: PgrepOptBit = 4;
+pub const OPTBIT_F: PgrepOptBit = 3;
+pub const OPTBIT_A: PgrepOptBit = 2;
 /* must be first, we need OPT_INVERT = 0/1 */
-pub const OPTBIT_L: C2RustUnnamed_0 = 1;
+pub const OPTBIT_L: PgrepOptBit = 1;
 /* "vlafxons:+P:+" */
-pub const OPTBIT_V: C2RustUnnamed_0 = 0;
+pub const OPTBIT_V: PgrepOptBit = 0;
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct C2RustUnnamed_1 {
+pub struct pgrep_regex_match {
   pub re_buffer: regex_t,
   pub re_match: [regmatch_t; 1],
 }
