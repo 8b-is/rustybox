@@ -14,18 +14,7 @@ extern "C" {
 
 }
 
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct mtop {
-  pub mt_op: libc::c_short,
-  pub mt_count: libc::c_int,
-}
-
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct mtpos {
-  pub mt_blkno: libc::c_long,
-}
+use libc::{mtop, mtpos};
 
 /*
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
