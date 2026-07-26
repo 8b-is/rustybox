@@ -1,0 +1,9 @@
+[ARGS...]
+
+tree: a familiar alias for `st` (smart-tree). Delegates to the standalone
+smart-tree binary with every argument passed through — see `st`.
+
+	tree               visualize the current directory
+	tree PATH -d 2     a path, to depth 2
+
+Requires the `st` binary on PATH (cargo install smart-tree), or set $RUSTYBOX_ST.

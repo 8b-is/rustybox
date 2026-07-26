@@ -222,6 +222,24 @@ in addition to a backend. High-value future adds:
   developer-facing niceties; gate behind a separate `extras` feature so the
   BusyBox-compatible core stays clean.
 
+### The `extras` layer (implemented)
+
+The `extras` feature is now scaffolded, with **`st` / `tree`** as its first
+members — [smart-tree](https://github.com/8b-is/smart-tree), a context-aware,
+AI-friendly `tree`. Build with `--features extras-st` (or `--features extras`);
+it is deliberately **excluded** from `modern` and the lean sandbox core.
+
+smart-tree is the one case where the "no subprocessing, link the library" rule
+does *not* apply: it is a large AI application (candle LLM inference, a ratatui
+TUI, an axum web dashboard, an MCP server, tree-sitter parsers) whose lib has no
+single `run()` entry. Linking it would defeat rustybox's reason to exist — one
+small, audited, static binary that *shrinks* a sandbox's executable surface. So
+`modern/st.rs` **delegates** to a standalone `st` binary (via `$RUSTYBOX_ST` or
+`PATH`), exactly how entheai already execs `git` and `rustybox` itself. The
+heavy tool stays separately audited; the core stays ~4 MB. Future extras that
+*are* focused pure-Rust libs (`rg`, `fd`, `jaq`) should link in-process as
+usual — delegation is reserved for tools too heavy for the sandbox binary.
+
 ## Success criteria
 
 A migrated applet is "done" when: its `*-modern` backend is the default feature,

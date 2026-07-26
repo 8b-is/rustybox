@@ -41,6 +41,8 @@ pub mod mountpoint;
 pub mod setsid;
 #[cfg(feature = "modern-spherepop")]
 pub mod spherepop;
+#[cfg(feature = "extras-st")]
+pub mod st;
 #[cfg(feature = "modern-tar")]
 mod tar;
 #[cfg(feature = "modern-umount")]
@@ -209,6 +211,8 @@ pub fn try_run(name: &str, argv: &[&str]) -> Option<i32> {
     "ionice" => Some(ionice::run(argv)),
     #[cfg(feature = "modern-spherepop")]
     "spherepop" => Some(spherepop::run(argv)),
+    #[cfg(feature = "extras-st")]
+    "st" | "tree" => Some(st::run(argv)),
     #[cfg(feature = "modern-watch")]
     "watch" => Some(watch::run(argv)),
     #[cfg(feature = "modern-xargs")]

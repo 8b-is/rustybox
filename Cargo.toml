@@ -598,6 +598,15 @@ w = []
 wall = []
 spherepop = ["modern-spherepop"]
 watch = ["modern-watch"]
+
+# --- extras: net-new, non-BusyBox agent/developer tools (own applet names) ---
+# NOT part of `modern` or the lean sandbox core — opt in explicitly. Unlike the
+# `modern-*` backends, an extras applet MAY delegate to a separate installed
+# binary (see modern/st.rs) so the audited static core stays small.
+extras = ["extras-st"]
+extras-st = ["st", "tree"]
+st = ["extras-st"]
+tree = ["extras-st"]
 watchdog = []
 wc = []
 wget = []

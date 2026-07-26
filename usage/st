@@ -1,0 +1,14 @@
+[ARGS...]
+
+Smart Tree (st): a fast, context-aware directory visualizer — a modern `tree`
+built for humans and AI agents. This rustybox `extras` applet delegates to the
+standalone smart-tree binary (github.com/8b-is/smart-tree); every argument is
+passed straight through.
+
+	st                 visualize the current directory
+	st PATH -d 5       a path, to depth 5
+	st --mode ai       token-compact output for AI/agent context
+
+Requires the `st` binary on PATH (cargo install smart-tree), or set $RUSTYBOX_ST
+to point at it. This applet execs that binary rather than linking it, to keep
+the rustybox core small and audited.
