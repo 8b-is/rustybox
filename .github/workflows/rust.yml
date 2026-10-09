@@ -7,7 +7,8 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -18,17 +19,42 @@ jobs:
           rustc --version --verbose
           cargo --version --verbose
 
-      - name: Cache
-        uses: Swatinem/rust-cache@v2
+      # Use the runner's cached interpreter without changing the action allowlist.
+      - name: Set up cached Python 3.11
+        run: |
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import subprocess
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+          cache = Path(os.environ["RUNNER_TOOL_CACHE"]) / "Python"
+          candidates = sorted(cache.glob("3.11.*/x64/bin/python3.11"))
+          if not candidates:
+              raise SystemExit("Runner cache has no Python 3.11 interpreter")
+          interpreter = candidates[-1]
+          library_path = str(interpreter.parent.parent / "lib")
+          if os.environ.get("LD_LIBRARY_PATH"):
+              library_path += ":" + os.environ["LD_LIBRARY_PATH"]
+          os.environ["LD_LIBRARY_PATH"] = library_path
+          subprocess.run([str(interpreter), "-c",
+                          "import sys; assert sys.version_info[:2] == (3, 11)"],
+                         check=True)
+          environment = Path(os.environ["RUNNER_TEMP"]) / "rustybox-ci-python"
+          subprocess.run([str(interpreter), "-m", "venv", str(environment)], check=True)
+          with open(os.environ["GITHUB_PATH"], "a") as paths:
+              paths.write(str(environment / "bin") + "\n")
+          with open(os.environ["GITHUB_ENV"], "a") as variables:
+              variables.write("LD_LIBRARY_PATH=" + library_path + "\n")
+          PY
+
+      - name: Xargs option regression tests
+        run: |
+          rustup toolchain install stable --profile minimal
+          python -m unittest discover -s tests -p test_xargs_options.py -v
 
       - name: Code Review Graph Build
         run: |
-          pip install code-review-graph
+          python -m pip install code-review-graph
           code-review-graph build
 
 
@@ -61,7 +87,8 @@ jobs:
         run: cargo build -p rustybox-core
 
   format:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - name: rustfmt (advisory)
