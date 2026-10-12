@@ -16,14 +16,24 @@ pub fn run(argv: &[&str]) -> i32 {
       args.next();
     } else if arg == "-n" || arg == "--max-args" {
       args.next();
-      if let Some(val) = args.next() {
-        if let Ok(n) = val.parse::<usize>() {
-          max_args = n;
+      match args
+        .next()
+        .and_then(|val| val.parse::<usize>().ok())
+        .filter(|&n| n > 0)
+      {
+        Some(n) => max_args = n,
+        None => {
+          eprintln!("xargs: max-args requires a positive integer");
+          return 1;
         }
       }
     } else if arg.starts_with("-n") {
-      if let Ok(n) = arg[2..].parse::<usize>() {
-        max_args = n;
+      match arg[2..].parse::<usize>().ok().filter(|&n| n > 0) {
+        Some(n) => max_args = n,
+        None => {
+          eprintln!("xargs: max-args requires a positive integer");
+          return 1;
+        }
       }
       args.next();
     } else if arg == "--" {
@@ -35,10 +45,6 @@ pub fn run(argv: &[&str]) -> i32 {
     } else {
       break;
     }
-  }
-
-  if max_args == 0 {
-    max_args = usize::MAX;
   }
 
   let mut cmd_args: Vec<String> = args.map(|s| s.to_string()).collect();
