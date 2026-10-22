@@ -14,7 +14,18 @@ extern "C" {
 
 }
 
-use libc::{mtop, mtpos};
+// Linux UAPI tape ioctl payloads (include/uapi/linux/mtio.h). libc does not
+// expose these structs; C layout and C integer widths are part of the ABI.
+#[repr(C)]
+pub struct mtop {
+  pub mt_op: libc::c_short,
+  pub mt_count: libc::c_int,
+}
+
+#[repr(C)]
+pub struct mtpos {
+  pub mt_blkno: libc::c_long,
+}
 
 /*
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.

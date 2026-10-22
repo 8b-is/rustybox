@@ -44,7 +44,7 @@ use libc::FILE;
 /*
  * Config file parser
  */
-pub type C2RustUnnamed = libc::c_uint;
+pub type ManParseFlags = libc::c_uint;
 // comments are recognized even if there is whitespace before
 // ("line start><space><tab><space>#comment" is also comment, not only "line start>#comment")
 // NORMAL is:
@@ -53,7 +53,7 @@ pub type C2RustUnnamed = libc::c_uint;
 // * warn and continue if less than mintokens delimiters found
 // * grab everything into last token
 // * comments are recognized even if they aren't the first char
-pub const PARSE_NORMAL: C2RustUnnamed = 4653056;
+pub const PARSE_NORMAL: ManParseFlags = 4653056;
 // delim[0] and delim[1] are two different allowed comment chars
 // (so far, delim[0] will only work as comment char for full-line comment)
 // (IOW: it works as if PARSE_EOL_COMMENTS is not set. sysctl applet is okay with this)
