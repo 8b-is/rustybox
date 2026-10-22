@@ -165,11 +165,11 @@ pub unsafe fn pgrep_main(mut _argc: libc::c_int, mut argv: *mut *mut libc::c_cha
   let mut cmd_last: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
   let mut proc_0: *mut procps_status_t = std::ptr::null_mut();
   /* These are initialized to 0 */
-  let mut Z: C2RustUnnamed_1 = std::mem::zeroed();
+  let mut Z: pgrep_regex_match = std::mem::zeroed();
   memset(
-    &mut Z as *mut C2RustUnnamed_1 as *mut libc::c_void,
+    &mut Z as *mut pgrep_regex_match as *mut libc::c_void,
     0,
-    ::std::mem::size_of::<C2RustUnnamed_1>() as libc::c_ulong,
+    ::std::mem::size_of::<pgrep_regex_match>() as libc::c_ulong,
   );
   /* Parse -SIGNAL for pkill. Must be first option, if present */
   signo = 15i32;
